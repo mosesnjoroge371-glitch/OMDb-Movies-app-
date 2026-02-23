@@ -1,0 +1,102 @@
+/* ===== APP LAYOUT ===== */
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* smooth page spacing below navbar */
+main {
+  min-height: calc(100vh - 70px);
+}
+
+/* ===== NAVBAR ENHANCEMENTS ===== */
+
+.navbar {
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar h2 {
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.navbar a {
+  transition: 0.25s ease;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  opacity: 0.7;
+}
+
+/* ===== BUTTON IMPROVEMENTS ===== */
+
+button {
+  background: #e50914;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* ===== CARD HOVER EFFECT ===== */
+
+.card {
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0,0,0,.6);
+}
+
+/* ===== DETAILS PAGE ANIMATION ===== */
+
+.details {
+  animation: fadeIn .35s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(8px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ===== SEARCH BAR POLISH ===== */
+
+.search input {
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.search input:focus {
+  box-shadow: 0 0 0 2px rgba(229,9,20,.4);
+}
+
+/* ===== SMALL SCREEN NAVBAR ===== */
+
+@media (max-width:600px){
+
+  .navbar{
+    flex-direction: column;
+    align-items: flex-start;
+    gap:8px;
+  }
+
+  .container{
+    padding: 0 10px;
+  }
+}
