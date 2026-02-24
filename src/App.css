@@ -10,12 +10,57 @@ main {
   min-height: calc(100vh - 70px);
 }
 
+/* AUTH PAGES */
+
+.auth {
+  max-width: 400px;
+  margin: 120px auto;
+  background: #1c1c1c;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.auth h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-form input {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+}
+
+.auth-form button {
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.auth-links {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.auth-links a {
+  color: #e50914;
+  text-decoration: none;
+}
+
 /* ===== NAVBAR ENHANCEMENTS ===== */
 
 .navbar {
   z-index: 1000;
   backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .navbar h2 {
@@ -45,7 +90,7 @@ button {
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,.4);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
 }
 
 button:active {
@@ -55,23 +100,31 @@ button:active {
 /* ===== CARD HOVER EFFECT ===== */
 
 .card {
-  transition: transform .25s ease, box-shadow .25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .card:hover {
   transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 12px 28px rgba(0,0,0,.6);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
 }
 
 /* ===== DETAILS PAGE ANIMATION ===== */
 
 .details {
-  animation: fadeIn .35s ease;
+  animation: fadeIn 0.35s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity:0; transform:translateY(8px); }
-  to { opacity:1; transform:translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===== SEARCH BAR POLISH ===== */
@@ -83,20 +136,19 @@ button:active {
 }
 
 .search input:focus {
-  box-shadow: 0 0 0 2px rgba(229,9,20,.4);
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.4);
 }
 
 /* ===== SMALL SCREEN NAVBAR ===== */
 
-@media (max-width:600px){
-
-  .navbar{
+@media (max-width: 600px) {
+  .navbar {
     flex-direction: column;
     align-items: flex-start;
-    gap:8px;
+    gap: 8px;
   }
 
-  .container{
+  .container {
     padding: 0 10px;
   }
 }
