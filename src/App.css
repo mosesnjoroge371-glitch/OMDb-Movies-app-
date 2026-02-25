@@ -5,6 +5,23 @@
   margin: auto;
 }
 
+.categories{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.categories button{
+  background:#222;
+  padding:8px 12px;
+  border-radius:20px;
+}
+
+.categories button:hover{
+  background:#e50914;
+}
+
 /* smooth page spacing below navbar */
 main {
   min-height: calc(100vh - 70px);
@@ -53,6 +70,12 @@ main {
 .auth-links a {
   color: #e50914;
   text-decoration: none;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:18px;   /* THIS adds spacing */
 }
 
 /* ===== NAVBAR ENHANCEMENTS ===== */

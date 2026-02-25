@@ -10,7 +10,7 @@ export default function Navbar() {
     <nav className="navbar">
       <h2>MovieApp</h2>
 
-      <div>
+      <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/favorites">Favorites</Link>
         <button onClick={logout}>Logout</button>
