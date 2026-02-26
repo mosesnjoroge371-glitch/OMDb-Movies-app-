@@ -7,8 +7,23 @@ const KEY = import.meta.env.VITE_OMDB_KEY;
 export default function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState("Avengers");
-  const [page, setPage] = useState(1);
+const starterQueries = [
+  "batman",
+  "naruto",
+  "harry potter",
+  "romance",
+  "action",
+  "thriller",
+  "sci fi",
+  "animation",
+  "series",
+  "comedy",
+];
+
+const randomStarter =
+  starterQueries[Math.floor(Math.random() * starterQueries.length)];
+
+const [query, setQuery] = useState(randomStarter);  const [page, setPage] = useState(1);
   const observer = useRef();
 
   const fetchMovies = async (title, pageNum = 1, append = false) => {
@@ -21,11 +36,33 @@ export default function Home() {
 
       const data = await res.json();
 
-      if (append) {
-        setMovies((prev) => [...prev, ...(data.Search || [])]);
-      } else {
-        setMovies(data.Search || []);
-      }
+      let results = data.Search || [];
+
+      // 🔥 Fix missing posters
+      const fixedResults = await Promise.all(
+        results.map(async (movie) => {
+          if (movie.Poster === "N/A") {
+            const detailRes = await fetch(
+              `https://www.omdbapi.com/?apikey=${KEY}&i=${movie.imdbID}`,
+            );
+            const detailData = await detailRes.json();
+            return {
+              ...movie,
+              Poster:
+                detailData.Poster !== "N/A"
+                  ? detailData.Poster
+                  : "https://via.placeholder.com/300x450?text=No+Image",
+            };
+          }
+          return movie;
+        }),
+      );
+
+     if (append) {
+       setMovies((prev) => [...prev, ...fixedResults]);
+     } else {
+       setMovies(fixedResults);
+     }
     } catch {
       if (!append) setMovies([]);
     } finally {
