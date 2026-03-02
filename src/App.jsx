@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
-
 import Home from "./pages/Home";
 import Details from "./pages/Details";
 import Favorites from "./pages/Favorites";
@@ -25,9 +24,7 @@ import Theme from "./pages/Theme";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
-
 import { useState, useEffect } from "react";
-
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -39,10 +36,24 @@ export default function App() {
   const showSidebar = user && isHome;
   const showMenuButton = user && isHome;
 
+  // Apply background styling only on auth pages
+  const authPages = ["/login", "/signup", "/forgot"];
+  const isAuthPage = authPages.includes(location.pathname);
+
   // close the drawer when navigating away from home
   useEffect(() => {
     if (!isHome) setSidebarOpen(false);
   }, [isHome]);
+
+  // Toggle auth-page class on body
+  useEffect(() => {
+    if (isAuthPage) {
+      document.body.classList.add("auth-page");
+    } else {
+      document.body.classList.remove("auth-page");
+    }
+    return () => document.body.classList.remove("auth-page");
+  }, [isAuthPage]);
 
   return (
     <>
