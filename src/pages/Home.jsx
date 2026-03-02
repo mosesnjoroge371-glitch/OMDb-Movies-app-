@@ -2,39 +2,36 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import SearchBar from "../components/SearchBar";
 import MovieList from "../components/MovieList";
 import CategoryBar from "../components/CategoryBar";
-const KEY = import.meta.env.VITE_OMDB_KEY;
+import { searchByKeyword, getMovieById } from "../utils/api";
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-const starterQueries = [
-  "batman",
-  "naruto",
-  "harry potter",
-  "romance",
-  "action",
-  "thriller",
-  "sci fi",
-  "animation",
-  "series",
-  "comedy",
-];
+  const starterQueries = [
+    "batman",
+    "naruto",
+    "harry potter",
+    "romance",
+    "action",
+    "thriller",
+    "sci fi",
+    "animation",
+    "series",
+    "comedy",
+  ];
 
-const randomStarter =
-  starterQueries[Math.floor(Math.random() * starterQueries.length)];
+  const randomStarter =
+    starterQueries[Math.floor(Math.random() * starterQueries.length)];
 
-const [query, setQuery] = useState(randomStarter);  const [page, setPage] = useState(1);
+  const [query, setQuery] = useState(randomStarter);
+  const [page, setPage] = useState(1);
   const observer = useRef();
 
   const fetchMovies = async (title, pageNum = 1, append = false) => {
     try {
       setLoading(true);
 
-      const res = await fetch(
-        `https://www.omdbapi.com/?apikey=${KEY}&s=${title}&page=${pageNum}`,
-      );
-
-      const data = await res.json();
+      const data = await searchByKeyword(title, pageNum);
 
       let results = data.Search || [];
 
@@ -42,14 +39,11 @@ const [query, setQuery] = useState(randomStarter);  const [page, setPage] = useS
       const fixedResults = await Promise.all(
         results.map(async (movie) => {
           if (movie.Poster === "N/A") {
-            const detailRes = await fetch(
-              `https://www.omdbapi.com/?apikey=${KEY}&i=${movie.imdbID}`,
-            );
-            const detailData = await detailRes.json();
+            const detailData = await getMovieById(movie.imdbID);
             return {
               ...movie,
               Poster:
-                detailData.Poster !== "N/A"
+                detailData.Poster && detailData.Poster !== "N/A"
                   ? detailData.Poster
                   : "https://via.placeholder.com/300x450?text=No+Image",
             };
@@ -58,13 +52,21 @@ const [query, setQuery] = useState(randomStarter);  const [page, setPage] = useS
         }),
       );
 
-     if (append) {
-       setMovies((prev) => [...prev, ...fixedResults]);
-     } else {
-       setMovies(fixedResults);
-     }
-    } catch {
+      if (append) {
+        setMovies((prev) => {
+          // deduplicate: only add movies not already in the list
+          const existingIds = new Set(prev.map((m) => m.imdbID));
+          const newMovies = fixedResults.filter(
+            (m) => !existingIds.has(m.imdbID),
+          );
+          return [...prev, ...newMovies];
+        });
+      } else {
+        setMovies(fixedResults);
+      }
+    } catch (err) {
       if (!append) setMovies([]);
+      console.error(err);
     } finally {
       setLoading(false);
     }

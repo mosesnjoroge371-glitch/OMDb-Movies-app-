@@ -24,6 +24,14 @@ export function MovieProvider({ children }) {
 
   const isFavorite = (id) => favorites.some((m) => m.imdbID === id);
 
+  const [continueWatching, setContinueWatching] = useState(
+    JSON.parse(localStorage.getItem("continueWatching")) || [],
+  );
+
+  useEffect(() => {
+    localStorage.setItem("continueWatching", JSON.stringify(continueWatching));
+  }, [continueWatching]);
+
   return (
     <MovieContext.Provider
       value={{ favorites, addFavorite, removeFavorite, isFavorite }}

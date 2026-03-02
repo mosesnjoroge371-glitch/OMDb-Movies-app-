@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MovieDetails from "../components/MovieDetails";
-
-const KEY = import.meta.env.VITE_OMDB_KEY;
+import { getMovieById } from "../utils/api";
 
 export default function Details() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    fetch(`https://www.omdbapi.com/?apikey=${KEY}&i=${id}`)
-      .then((r) => r.json())
-      .then(setMovie);
+    let mounted = true;
+    getMovieById(id)
+      .then((data) => {
+        if (mounted) setMovie(data);
+      })
+      .catch((err) => console.error(err));
+    return () => (mounted = false);
   }, [id]);
 
   if (!movie) return <p>Loading movie...</p>;
