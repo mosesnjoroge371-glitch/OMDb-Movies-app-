@@ -1,12 +1,25 @@
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import { useMovies } from "../context/MovieContext";
 import MovieCard from "../components/MovieCard";
 
 export default function MyList() {
+  const navigate = useNavigate();
   const { myList = [] } = useMovies();
 
   return (
     <div className="page">
-      <h2 className="page-title">My List</h2>
+      <div className="page-header">
+        <button
+          className="back-btn"
+          onClick={() => navigate("/")}
+          aria-label="Go to home"
+          title="Go to home"
+        >
+          <FaArrowLeft />
+        </button>
+        <h2>My List</h2>
+      </div>
 
       {myList.length === 0 ? (
         <div className="empty-state">

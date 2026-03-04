@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import { searchByType } from "../utils/api";
 import MovieCard from "../components/MovieCard";
 
 export default function Tv() {
+  const navigate = useNavigate();
   const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,16 +34,29 @@ export default function Tv() {
 
   return (
     <div>
-      <h2>TV Shows</h2>
-
-      {loading && <p>Loading TV shows...</p>}
-
-      {!loading && shows.length === 0 && <p>No TV shows found.</p>}
-
+      <div className="page-header">
+        <button
+          className="back-btn"
+          onClick={() => navigate("/")}
+          aria-label="Go to home"
+          title="Go to home"
+        >
+          <FaArrowLeft />
+        </button>
+        <h1>TV Shows</h1>
+      </div>
       <div className="grid">
-        {shows.map((show) => (
-          <MovieCard key={show.imdbID} movie={show} />
-        ))}
+        <h2>TV Shows</h2>
+
+        {loading && <p>Loading TV shows...</p>}
+
+        {!loading && shows.length === 0 && <p>No TV shows found.</p>}
+
+        <div className="grid">
+          {shows.map((show) => (
+            <MovieCard key={show.imdbID} movie={show} />
+          ))}
+        </div>
       </div>
     </div>
   );

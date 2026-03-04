@@ -72,6 +72,19 @@ main {
   text-decoration: none;
 }
 
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.page-header h1,
+.page-header h2 {
+  margin: 0;
+  flex: 1;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -126,7 +139,9 @@ main {
   background: #181818;
   padding: 20px;
   border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 }
 
@@ -318,7 +333,7 @@ button:active {
   background: #1c1c1c;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsive */
@@ -335,7 +350,7 @@ button:active {
 
 .genre-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
   list-style: none;
   padding: 0;
@@ -348,6 +363,21 @@ button:active {
   text-align: center;
 }
 /* ===== SIDEBAR ===== */
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+}
+
+.sidebar nav a svg {
+  font-size: 18px;
+}
+
 .sidebar {
   position: fixed;
   top: 70px;
@@ -397,6 +427,23 @@ button:active {
   font-size: 1.25rem;
   cursor: pointer;
   margin-right: 15px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: #e50914;
 }
 
 /* Default styles for larger screens */

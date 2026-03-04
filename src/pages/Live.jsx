@@ -1,6 +1,8 @@
- 
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 export default function Live() {
+  const navigate = useNavigate();
   const liveChannels = [
     { id: 1, name: "Global News Live", category: "News" },
     { id: 2, name: "Sports Channel HD", category: "Sports" },
@@ -9,7 +11,17 @@ export default function Live() {
 
   return (
     <div className="page">
-      <h2 className="page-title">Live TV</h2>
+      <div className="page-header">
+        <button
+          className="back-btn"
+          onClick={() => navigate("/")}
+          aria-label="Go to home"
+          title="Go to home"
+        >
+          <FaArrowLeft />
+        </button>
+        <h2>Live TV</h2>
+      </div>
 
       <div className="live-grid">
         {liveChannels.map((channel) => (

@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 export default function Search() {
+  const navigate = useNavigate();
   // load key from Vite environment variables (.env)
   const myKey = import.meta.env.VITE_OMDB_KEY;
 
@@ -75,7 +78,17 @@ export default function Search() {
 
   return (
     <div className="search-page">
-      <h1>Search Movies</h1>
+      <div className="page-header">
+        <button
+          className="back-btn"
+          onClick={() => navigate("/")}
+          aria-label="Go to home"
+          title="Go to home"
+        >
+          <FaArrowLeft />
+        </button>
+        <h1>Search Movies</h1>
+      </div>
 
       <form onSubmit={handleSubmit} className="search-form">
         <input
