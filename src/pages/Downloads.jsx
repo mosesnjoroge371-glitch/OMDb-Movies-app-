@@ -5,7 +5,7 @@ import MovieCard from "../components/MovieCard";
 
 export default function Downloads() {
   const navigate = useNavigate();
-  const { downloads } = useMovies();
+  const { downloads = [] } = useMovies();
 
   return (
     <div>

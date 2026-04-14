@@ -7,12 +7,27 @@ import MovieCard from "../components/MovieCard";
 export default function Movies() {
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchMovies() {
-      // example search for popular movie keyword
-      const data = await searchByType("Avengers", "movie");
-      if (data.Search) setMovies(data.Search);
+      try {
+        setLoading(true);
+        setError(null);
+        // example search for popular movie keyword
+        const data = await searchByType("Avengers", "movie");
+        if (data.Search) {
+          setMovies(data.Search);
+        } else {
+          setMovies([]);
+        }
+      } catch (err) {
+        console.error("Error fetching movies:", err);
+        setError("Failed to load movies. Please try again.");
+      } finally {
+        setLoading(false);
+      }
     }
     fetchMovies();
   }, []);
@@ -30,11 +45,19 @@ export default function Movies() {
         </button>
         <h1>Movies</h1>
       </div>
-      <div className="grid">
-        {movies.map((movie) => (
-          <MovieCard key={movie.imdbID} movie={movie} />
-        ))}{" "}
-      </div>{" "}
+      {error && <p className="error-message">{error}</p>}
+      {loading && <p>Loading movies...</p>}
+      {!loading && !error && (
+        <div className="grid">
+          {movies.length > 0 ? (
+            movies.map((movie) => (
+              <MovieCard key={movie.imdbID} movie={movie} />
+            ))
+          ) : (
+            <p>No movies found.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

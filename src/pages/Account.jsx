@@ -3,7 +3,14 @@ import { FaArrowLeft } from "react-icons/fa";
 
 export default function Account() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = null;
+  try {
+    const userData = localStorage.getItem("user");
+    user = userData ? JSON.parse(userData) : null;
+  } catch (err) {
+    console.error("Error parsing user data:", err);
+    user = localStorage.getItem("user");
+  }
 
   return (
     <div>

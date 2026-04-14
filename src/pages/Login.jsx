@@ -4,13 +4,16 @@ import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const submit = (e) => {
     e.preventDefault();
-    login(email); // fake login
-    navigate("/"); // go to home
+    if (email.trim() && password.trim()) {
+      login(email); // fake login
+      navigate("/"); // go to home
+    }
   };
 
   return (
@@ -25,7 +28,13 @@ export default function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input type="password" placeholder="Password" required />
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
         <button type="submit">Login</button>
 

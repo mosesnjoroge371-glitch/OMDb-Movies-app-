@@ -15,9 +15,14 @@ export default function Search() {
 
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [history, setHistory] = useState(
-    JSON.parse(localStorage.getItem("searchHistory")) || [],
-  );
+  const [history, setHistory] = useState(() => {
+    try {
+      const saved = localStorage.getItem("searchHistory");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [loading, setLoading] = useState(false);
 
   const searchMovies = async (searchTerm) => {

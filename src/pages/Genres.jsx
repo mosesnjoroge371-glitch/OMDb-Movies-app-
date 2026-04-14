@@ -7,10 +7,25 @@ import MovieCard from "../components/MovieCard";
 export default function Genres() {
   const navigate = useNavigate();
   const [genreMovies, setGenreMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const fetchGenre = async (genre) => {
-    const data = await searchByKeyword(genre);
-    if (data.Search) setGenreMovies(data.Search);
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await searchByKeyword(genre);
+      if (data.Search) {
+        setGenreMovies(data.Search);
+      } else {
+        setGenreMovies([]);
+      }
+    } catch (err) {
+      console.error("Error fetching genre:", err);
+      setError("Failed to load genre. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,6 +46,8 @@ export default function Genres() {
       <button onClick={() => fetchGenre("Anime")}>Anime</button>
       <button onClick={() => fetchGenre("Romance")}>Romance</button>
 
+      {error && <p className="error-message">{error}</p>}
+      {loading && <p>Loading...</p>}
       <div className="grid">
         {genreMovies.map((movie) => (
           <MovieCard key={movie.imdbID} movie={movie} />

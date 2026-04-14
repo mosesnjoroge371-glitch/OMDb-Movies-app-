@@ -4,7 +4,7 @@ import { useMovies } from "../context/MovieContext";
 
 export default function ContinueWatching() {
   const navigate = useNavigate();
-  // Provide an empty array as a fallback if 'continueWatching' is undefined or null
+  // Get continueWatching from the MovieContext
   const { continueWatching = [] } = useMovies();
 
   return (

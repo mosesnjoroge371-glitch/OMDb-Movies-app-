@@ -7,6 +7,7 @@ import { searchByKeyword, getMovieById } from "../utils/api";
 export default function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const starterQueries = [
     "batman",
     "naruto",
@@ -30,8 +31,15 @@ export default function Home() {
   const fetchMovies = async (title, pageNum = 1, append = false) => {
     try {
       setLoading(true);
+      setError(null);
 
       const data = await searchByKeyword(title, pageNum);
+
+      if (data.Error) {
+        setError(data.Error);
+        if (!append) setMovies([]);
+        return;
+      }
 
       let results = data.Search || [];
 
@@ -65,8 +73,11 @@ export default function Home() {
         setMovies(fixedResults);
       }
     } catch (err) {
-      if (!append) setMovies([]);
       console.error(err);
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to load movies";
+      setError(errorMessage);
+      if (!append) setMovies([]);
     } finally {
       setLoading(false);
     }
@@ -107,6 +118,8 @@ export default function Home() {
     <>
       <SearchBar onSearch={handleSearch} />
       <CategoryBar onSelect={handleSearch} />
+
+      {error && <p className="error-message">{error}</p>}
 
       <MovieList
         movies={movies}
